@@ -21,6 +21,7 @@ podman run --pod aluna-db-pod \
 
 # create the pod for the API
 # image=docker.io/christianbueno1/aluna-api:latest
+podman pod stop aluna-api-pod && podman pod rm aluna-api-pod && \
 podman pod create --name aluna-api-pod --network aluna-net --publish 8002:8000 && \
 # run the API container in the pod
 podman run --pod aluna-api-pod \
@@ -29,3 +30,5 @@ podman run --pod aluna-api-pod \
   --restart=always \
   -d docker.io/christianbueno1/aluna-api:latest
 
+# remove pod
+podman pod stop aluna-api-pod && podman pod rm aluna-api-pod
