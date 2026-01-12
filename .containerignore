@@ -1,0 +1,51 @@
+# Git
+.git
+.gitignore
+.github
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info
+dist
+build
+.venv
+venv
+ENV
+
+# Modelos (INCLUIDOS en imagen - comentado)
+# modelos_entrenados/
+modelos_entrenados.zip
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Documentation
+README.md
+MODELOS_README.md
+*.md
+
+# Testing
+tests/
+.pytest_cache
+.coverage
+htmlcov
+
+# Environment
+.env
+.env.*
+
+# Kubernetes/Podman
+*.yaml
+*.yml
+create-pods.md
+
+# Misc
+*.log
+.DS_Store

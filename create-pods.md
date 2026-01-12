@@ -19,3 +19,13 @@ podman run --pod aluna-db-pod \
   -d docker.io/library/postgres:16.10-trixie
 
 
+# create the pod for the API
+# image=docker.io/christianbueno1/aluna-api:latest
+podman pod create --name aluna-api-pod --network aluna-net --publish 8002:8001 && \
+# run the API container in the pod
+podman run --pod aluna-api-pod \
+  --name aluna-api \
+  --env-file .env \
+  --restart=always \
+  -d docker.io/christianbueno1/aluna-api:latest
+

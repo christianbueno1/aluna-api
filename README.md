@@ -340,7 +340,7 @@ uv pip compile pyproject.toml -o requirements.txt
 # create repo
 gh repo create aluna-api --public --description "Sistema de predicción de riesgos obstétricos con IA - Sepsis, Hipertensión Gestacional y Hemorragia Posparto" --source=. --remote=origin
 # then
-git remote add origin <repository-url>
+# git remote add origin git@github.com:christianbueno1/aluna-api.git
 git branch -M main
 git push -u origin main
 
