@@ -337,3 +337,10 @@ curl -X POST http://127.0.0.1:8000/api/v1/predictions/predict \
 ```bash
 # genera requirements.txt desde pyproject.toml
 uv pip compile pyproject.toml -o requirements.txt
+# create repo
+gh repo create aluna-api --public --description "Sistema de predicción de riesgos obstétricos con IA - Sepsis, Hipertensión Gestacional y Hemorragia Posparto" --source=. --remote=origin
+# then
+git remote add origin <repository-url>
+git branch -M main
+git push -u origin main
+
