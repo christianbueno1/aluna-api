@@ -21,7 +21,7 @@ podman run --pod aluna-db-pod \
 
 # create the pod for the API
 # image=docker.io/christianbueno1/aluna-api:latest
-podman pod create --name aluna-api-pod --network aluna-net --publish 8002:8001 && \
+podman pod create --name aluna-api-pod --network aluna-net --publish 8002:8000 && \
 # run the API container in the pod
 podman run --pod aluna-api-pod \
   --name aluna-api \
