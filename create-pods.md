@@ -82,3 +82,15 @@ podman exec aluna-db psql -U chris -d chris_db -c "\d risk_predictions"
 # Contar registros (debería ser 0 si es nueva)
 podman exec aluna-db psql -U chris -d chris_db -c "SELECT COUNT(*) FROM patient_cases;"
 podman exec aluna-db psql -U chris -d chris_db -c "SELECT COUNT(*) FROM risk_predictions;"
+
+# database on server
+# create a network
+# execute on server
+# podman network create aluna-net
+# podman volume create aluna-db-data
+# podman volume create aluna-db-config
+ssh az-odin "podman network create aluna-net || true && \
+podman volume create aluna-db-data || true && \
+podman volume create aluna-db-config || true"
+# run the kubernetes manifest aluna-db-pod.yaml que esta localmente en el servidor
+ssh az-odin "podman kube play -" < aluna-db-pod.yaml

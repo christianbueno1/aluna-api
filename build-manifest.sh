@@ -37,11 +37,11 @@ fi
 echo "✅ Images pushed successfully."
 
 # Transfer manifest file to remote server, show progress, use rsync
-# echo "📡 Transferring manifest file to remote server..."
-# rsync -avz --mkpath --progress $MANIFEST_FILE $SSH_ALIAS:$REMOTE_PATH
-# echo "✅ Manifest file transferred successfully."
+echo "📡 Transferring manifest file to remote server..."
+rsync -avz --mkpath --progress $MANIFEST_FILE $SSH_ALIAS:$REMOTE_PATH
+echo "✅ Manifest file transferred successfully."
 
-# # Stop and remove existing pod on remote server, then create new pod
-# echo "🔄 Restarting pod on remote server..."
-# ssh $SSH_ALIAS "podman pod stop $PODNAME || true && podman pod rm $PODNAME || true && podman kube play --network $PODMAN_NETWORK_NAME $REMOTE_PATH$MANIFEST_FILE"
-# echo "✅ Pod restarted successfully."
+# Stop and remove existing pod on remote server, then create new pod
+echo "🔄 Restarting pod on remote server..."
+ssh $SSH_ALIAS "podman pod stop $PODNAME || true && podman pod rm $PODNAME || true && podman kube play --network $PODMAN_NETWORK_NAME $REMOTE_PATH$MANIFEST_FILE"
+echo "✅ Pod restarted successfully."
