@@ -1,0 +1,42 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-5.7.1
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    io.kubernetes.cri-o.SandboxID/aluna-db: 34d24a1030c33ce4e841b52b7a8f95040e1cc8ba58a4f5d0362f082fe5df175b
+  creationTimestamp: "2026-01-12T01:50:39Z"
+  labels:
+    app: aluna-db-pod
+  name: aluna-db-pod
+spec:
+  containers:
+  - args:
+    - postgres
+    env:
+    - name: POSTGRES_USER
+      value: chris
+    - name: POSTGRES_DB
+      value: chris_db
+    - name: POSTGRES_PASSWORD
+      value: maGazine1!
+    image: docker.io/library/postgres:16.10-trixie
+    name: aluna-db
+    ports:
+    - containerPort: 5432
+      hostPort: 5434
+    volumeMounts:
+    - mountPath: /var/lib/postgresql/data
+      name: aluna-db-data-pvc
+    - mountPath: /etc/postgresql/conf.d
+      name: aluna-db-config-pvc
+  volumes:
+  - name: aluna-db-data-pvc
+    persistentVolumeClaim:
+      claimName: aluna-db-data
+  - name: aluna-db-config-pvc
+    persistentVolumeClaim:
+      claimName: aluna-db-config
+
