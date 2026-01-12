@@ -32,3 +32,18 @@ podman run --pod aluna-api-pod \
 
 # remove pod
 podman pod stop aluna-api-pod && podman pod rm aluna-api-pod
+
+# en el servidor
+# Escenario 1: Primera vez en producción (base de datos vacía)
+# 2. Ejecutar migraciones de Alembic dentro del contenedor
+podman exec -it aluna-api alembic upgrade head
+# Escenario 2: Base de datos existente (tu caso actual)
+# Si ya tienes tablas creadas manualmente, necesitas sincronizar Alembic con el estado actual:
+# 1. Generar el estado inicial de Alembic basado en la DB existente
+podman exec -it aluna-api alembic revision --autogenerate -m "initial_schema"
+# 2. Marcar como aplicada (sin ejecutar cambios)
+podman exec -it aluna-api alembic stamp head
+
+# Verificar si alembic existe
+podman exec aluna-api which alembic
+# Si existe, debería mostrar: /app/.venv/bin/alembic

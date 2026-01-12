@@ -13,8 +13,9 @@ ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
     UV_PYTHON_DOWNLOADS=never
 
-# Directorio de trabajo temporal
-WORKDIR /build
+# Usar /app como directorio de trabajo (mismo que runtime)
+# Esto evita problemas con shebangs en scripts CLI
+WORKDIR /app
 
 # Copiar archivos de dependencias
 COPY pyproject.toml uv.lock ./
@@ -52,8 +53,8 @@ RUN groupadd -r aluna && \
 # Directorio de trabajo
 WORKDIR /app
 
-# Copiar entorno virtual desde builder
-COPY --from=builder --chown=aluna:aluna /build/.venv .venv
+# Copiar entorno virtual desde builder (mismo path /app)
+COPY --from=builder --chown=aluna:aluna /app/.venv .venv
 
 # Copiar archivos de la aplicación
 COPY --chown=aluna:aluna app/ ./app/
@@ -75,5 +76,5 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8000/health || exit 1
 
 # Comando por defecto (producción)
-# Usar python -m uvicorn para evitar problemas con shebang del builder stage
-CMD ["python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]
+# Ahora podemos usar uvicorn directamente (shebang correcto)
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]
