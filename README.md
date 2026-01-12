@@ -1,17 +1,99 @@
-# 1. Crear la estructura de directorios
-mkdir -p app/{api/v1/endpoints,core,models,services,utils} tests modelos_entrenados
+# 🏥 Aluna API - Sistema de Predicción de Riesgos Obstétricos
 
-# 2. Crear los archivos __init__.py
-touch app/__init__.py
-touch app/api/__init__.py
-touch app/api/v1/__init__.py
-touch app/api/v1/endpoints/__init__.py
-touch app/core/__init__.py
-touch app/models/__init__.py
-touch app/services/__init__.py
-touch app/utils/__init__.py
+## 📋 Descripción
 
-# 3. Copiar los archivos que te proporcioné en cada ubicación
+**Aluna API** es un sistema inteligente de predicción de complicaciones obstétricas que utiliza Inteligencia Artificial para evaluar el riesgo de tres condiciones críticas durante el embarazo y parto. El sistema analiza datos clínicos de pacientes obstétricas y proporciona predicciones en tiempo real con recomendaciones médicas específicas.
+
+## 🎯 Objetivos
+
+- Identificación temprana de riesgos obstétricos
+- Apoyo en la toma de decisiones clínicas
+- Priorización de atención médica especializada
+- Reducción de complicaciones maternas
+
+## 🤖 Modelos de Inteligencia Artificial
+
+El sistema utiliza **3 modelos de Machine Learning** entrenados para predecir:
+
+### 1. **Riesgo de Sepsis**
+- **Algoritmo**: Decision Tree Classifier con StandardScaler
+- **Recall Alto/Medio**: 56.76%
+- **Precision Alto/Medio**: 3.19%
+- **Umbral de clasificación**: 80.43%
+
+### 2. **Riesgo de Hipertensión Gestacional**
+- **Algoritmo**: Decision Tree Classifier con StandardScaler
+- **Recall Alto/Medio**: 50.79%
+- **Precision Alto/Medio**: 5.91%
+- **Umbral de clasificación**: 87.43%
+
+### 3. **Riesgo de Hemorragia Posparto**
+- **Algoritmo**: Decision Tree Classifier con StandardScaler
+- **Recall Alto/Medio**: 77.88%
+- **Precision Alto/Medio**: 27.46%
+- **Umbral de clasificación**: 95.35%
+
+## 📊 Variables de Entrada (Features)
+
+El sistema analiza **8 variables clínicas**:
+
+1. **Edad Materna** (15-60 años)
+2. **Paridad** - Número de partos previos (0-20)
+3. **Controles Prenatales** - Cantidad de controles realizados (0-20)
+4. **Semanas de Gestación** (4.0-45.0)
+5. **Hipertensión Previa** (Sí/No)
+6. **Diabetes Gestacional** (Sí/No)
+7. **Cesárea Previa** (Sí/No)
+8. **Embarazo Múltiple** (Sí/No)
+
+## 🎨 Clasificación de Riesgos
+
+El sistema clasifica automáticamente los resultados en **4 niveles de riesgo**:
+
+- 🔴 **Alto** (≥70%): Requiere atención urgente
+- 🟡 **Moderado** (≥50%): Monitoreo frecuente
+- 🟢 **Bajo** (≥30%): Seguimiento estándar
+- ⚪ **Muy Bajo** (<30%): Seguimiento rutinario
+
+Cada predicción incluye:
+- ✅ Probabilidad numérica (0-100%)
+- ✅ Nivel de riesgo clasificado
+- ✅ Nivel de confianza del modelo
+- ✅ Recomendación médica específica
+
+## 🚀 Tecnologías
+
+- **Framework**: FastAPI (Python 3.14)
+- **ML Library**: scikit-learn 1.8.0
+- **Serialización**: Joblib
+- **Validación**: Pydantic v2
+- **Base de Datos**: PostgreSQL + SQLAlchemy
+- **Servidor**: Uvicorn (ASGI)
+
+---
+
+## 📦 Instalación y Configuración
+
+### 1. Clonar el repositorio
+```bash
+git clone <repository-url>
+cd aluna-api
+```
+
+### 2. Instalar dependencias
+```bash
+# Usando uv (recomendado)
+uv sync
+
+# O con pip
+pip install -r requirements.txt
+```
+
+### 3. Configurar variables de entorno
+```bash
+cp .env.example .env
+# Editar .env con tu configuración
+```
 
 # 4. Copiar modelos entrenados
 
@@ -250,3 +332,8 @@ curl -X POST http://127.0.0.1:8000/api/v1/predictions/predict \
     "cesareaPrevia": 1,
     "embarazoMultiple": 0
   }' | jq
+
+# notas de desarrollo
+```bash
+# genera requirements.txt desde pyproject.toml
+uv pip compile pyproject.toml -o requirements.txt

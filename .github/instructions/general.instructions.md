@@ -76,3 +76,17 @@ cesarea_previa
 embarazo_multiple
 
 - Use schemes when defining models and endpoints.
+
+# Solo para reproducir el entorno localmente
+# 1. Crear la estructura de directorios
+mkdir -p app/{api/v1/endpoints,core,models,services,utils} tests modelos_entrenados
+
+# 2. Crear los archivos __init__.py
+touch app/__init__.py
+touch app/api/__init__.py
+touch app/api/v1/__init__.py
+touch app/api/v1/endpoints/__init__.py
+touch app/core/__init__.py
+touch app/models/__init__.py
+touch app/services/__init__.py
+touch app/utils/__init__.py
