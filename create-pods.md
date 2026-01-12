@@ -30,6 +30,14 @@ podman run --pod aluna-api-pod \
   --restart=always \
   -d docker.io/christianbueno1/aluna-api:latest
 
+# stop, remove and run again
+podman stop aluna-api && podman rm aluna-api && \
+podman run --pod aluna-api-pod \
+  --name aluna-api \
+  --env-file .env \
+  --restart=always \
+  -d docker.io/christianbueno1/aluna-api:latest
+
 podman logs aluna-api --tail 50
 # remove pod
 podman pod stop aluna-api-pod && podman pod rm aluna-api-pod
@@ -63,3 +71,14 @@ podman exec aluna-db psql -U chris -d chris_db -c "\d patient_cases"
 podman exec aluna-db psql -U chris -d chris_db -c "\d risk_predictions"
 # 5. Ver historial de migraciones aplicadas
 podman exec aluna-api alembic history --verbose
+
+# Esto confirma que las tablas ya están creadas. Verifica:
+# Ver tablas existentes
+podman exec aluna-db psql -U chris -d chris_db -c "\dt"
+# Ver estructura de patient_cases
+podman exec aluna-db psql -U chris -d chris_db -c "\d patient_cases"
+# Ver estructura de risk_predictions
+podman exec aluna-db psql -U chris -d chris_db -c "\d risk_predictions"
+# Contar registros (debería ser 0 si es nueva)
+podman exec aluna-db psql -U chris -d chris_db -c "SELECT COUNT(*) FROM patient_cases;"
+podman exec aluna-db psql -U chris -d chris_db -c "SELECT COUNT(*) FROM risk_predictions;"

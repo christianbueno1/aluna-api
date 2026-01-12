@@ -1,0 +1,58 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-5.7.1
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    io.kubernetes.cri-o.SandboxID/aluna-api: a0ba4fe5f428508cecd1615817a5c85e756963d285138595de307b16f4f49022
+  creationTimestamp: "2026-01-12T22:27:42Z"
+  labels:
+    app: aluna-api-pod
+  name: aluna-api-pod
+spec:
+  containers:
+  - env:
+    - name: MAX_BATCH_SIZE
+      value: "100"
+    - name: MODELS_DIR
+      value: modelos_entrenados
+    - name: UMBRAL_CONFIANZA_ALTA
+      value: "0.8"
+    - name: UMBRAL_RIESGO_BAJO
+      value: "0.3"
+    - name: MODEL_HIPERTENSION_GESTACIONAL
+      value: riesgo_hipertension_gestacional__DecisionTree.joblib
+    - name: UMBRAL_RIESGO_ALTO
+      value: "0.7"
+    - name: UMBRAL_CONFIANZA_BAJA
+      value: "0.6"
+    - name: API_DESCRIPTION
+      value: API para predecir riesgo de sepsis, hipertensión gestacional y hemorragia
+        posparto
+    - name: API_PREFIX
+      value: /api/v1
+    - name: MODEL_SEPSIS
+      value: riesgo_sepsis__DecisionTree.joblib
+    - name: DATABASE_URL
+      value: postgresql://chris:maGazine1!@aluna-db-pod/chris_db
+    - name: CORS_ORIGINS
+      value: '["*"]'
+    - name: MODEL_HEMORRAGIA_POSPARTO
+      value: riesgo_hemorragia_posparto__DecisionTree.joblib
+    - name: API_TITLE
+      value: Sistema de Predicción de Complicaciones Obstétricas
+    - name: API_VERSION
+      value: 1.0.0
+    - name: LOG_LEVEL
+      value: INFO
+    - name: UMBRAL_RIESGO_MODERADO
+      value: "0.5"
+    image: docker.io/christianbueno1/aluna-api:latest
+    name: aluna-api
+    ports:
+    - containerPort: 8000
+      hostPort: 8002
+    securityContext: {}
+
